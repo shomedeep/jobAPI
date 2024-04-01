@@ -19,6 +19,10 @@ app.use(express.static("./public"));
 //route
 app.use("/api/v1", mainRouter);
 
+app.get("/", (req, res) => {
+  res.send("jobs api");
+});
+
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
@@ -32,7 +36,7 @@ const start = async () => {
       console.log(`Server is listening on port ${port}...`);
     });
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
