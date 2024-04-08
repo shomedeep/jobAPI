@@ -7,8 +7,12 @@ const app = express();
 
 const connectDB = require("./db/connect");
 
+const authenticateUser = require("./middlewares/authentication");
 // middleware
 const mainRouter = require("./routes/main");
+
+const authRouter = require("./routes/auth");
+const jobRouter = require("./routes/jobs");
 
 const notFoundMiddleware = require("./middlewares/not-found");
 const errorMiddleware = require("./middlewares/error-handler");
@@ -19,9 +23,8 @@ app.use(express.static("./public"));
 //route
 app.use("/api/v1", mainRouter);
 
-app.get("/", (req, res) => {
-  res.send("jobs api");
-});
+app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/job", authenticateUser, jobRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
