@@ -8,18 +8,23 @@ const cors = require("cors");
 const xss = require("xss-clean");
 const rateLimiter = require("express-rate-limit");
 
+// Swagger
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerJsDocs = YAML.load("./swagger.yaml");
+
 const express = require("express");
 const app = express();
 
 const connectDB = require("./db/connect");
-
 const authenticateUser = require("./middlewares/authentication");
-// middleware
-const mainRouter = require("./routes/main");
 
+// Routers
+const mainRouter = require("./routes/main");
 const authRouter = require("./routes/auth");
 const jobRouter = require("./routes/jobs");
 
+// error handlers
 const notFoundMiddleware = require("./middlewares/not-found");
 const errorMiddleware = require("./middlewares/error-handler");
 
@@ -39,9 +44,16 @@ app.use(
   })
 );
 
-//route
-app.use("/api/v1", mainRouter);
+app.get("/", (req, res) => {
+  res.send('<h1>Jobs API</h1><a href="/api-docs">Documentation</a>');
+});
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
 
+// test apis
+app.get("/string", (req, res) => res.status(500).send("This is a string"));
+
+//routes
+app.use("/api/v1", mainRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/job", authenticateUser, jobRouter);
 

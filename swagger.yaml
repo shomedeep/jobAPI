@@ -1,0 +1,313 @@
+openapi: 3.0.0
+info:
+  title: Job-Api Swagger UI Docs
+  description: This is my project apis documentation 
+  version: '1.0'
+  contact:
+    email: shomedeepmondal@gmail.com
+  license:
+    name: Apache 2.0
+    url: "http://apache.org/"
+servers:
+  - url: http://localhost:4400/api/v1
+    description: Local
+    variables: {}
+  - url: "https://mycompany.com/api/v1"
+    description: Production
+    variables: {}
+
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register user
+      operationId: RegisterUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUserRequest'
+            example:
+              name: bob
+              email: bob@example.com
+              password: secret
+        required: true
+      responses:
+        200:
+          description: OK
+          headers: {}
+        201: 
+          description: Created
+          headers: {}
+        400:
+          description: Bad request.
+        401:
+          description: Authorization information is missing or invalid.
+        404:
+          description: A user with the specified ID was not found.
+        500: 
+          description: Internal server error
+      deprecated: false
+      security: []
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login user
+      operationId: LoginUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginUserRequest'
+            example:
+              email: sam@email.com
+              password: secret
+        required: true
+      responses:
+        200:
+          description: OK
+          headers: {}
+        201: 
+          description: Created
+          headers: {}
+        400:
+          description: Bad request.
+        401:
+          description: Authorization information is missing or invalid.
+        404:
+          description: A user with the specified ID was not found.
+        500: 
+          description: Internal server error
+      deprecated: false
+      security: []
+
+  /job:
+    post:
+      tags:
+        - Job
+      summary: Create Job
+      operationId: CreateJob
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJobRequest'
+            example:
+              company: google
+              position: frontend developer
+        required: true
+      responses:
+        200:
+          description: OK
+          headers: {}
+        201: 
+          description: Created
+          headers: {}
+        400:
+          description: Bad request.
+        401:
+          description: Authorization information is missing or invalid.
+        404:
+          description: A user with the specified ID was not found.
+        500: 
+          description: Internal server error
+      deprecated: false
+
+    get:
+      tags: 
+        - Job
+      summary: Get all jobs
+      operationId: GetAllJobs
+      parameters: []
+      responses:
+        200:
+          description: OK
+          headers: {}
+        201: 
+          description: Created
+          headers: {}
+        400:
+          description: Bad request.
+        401:
+          description: Authorization information is missing or invalid.
+        404:
+          description: A user with the specified ID was not found.
+        500: 
+          description: Internal server error
+      deprecated: false
+  
+  /job/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The Job ID
+    get: 
+      tags:
+        - Job
+      summary: Get Single Job
+      operationId: GetSingleJob
+      parameters: []
+      responses:
+        200:
+          description: OK
+          headers: {}
+        201: 
+          description: Created
+          headers: {}
+        400:
+          description: Bad request.
+        401:
+          description: Authorization information is missing or invalid.
+        404:
+          description: A user with the specified ID was not found.
+        500: 
+          description: Internal server error
+      deprecated: false
+
+    patch: 
+      tags:
+        - Job
+      summary: Update Job
+      operationId: UpdateJob
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateJobRequest'
+            example:
+              company: random
+              position: intern
+        required: true
+      responses:
+        200:
+          description: OK
+          headers: {}
+        201: 
+          description: Created
+          headers: {}
+        400:
+          description: Bad request.
+        401:
+          description: Authorization information is missing or invalid.
+        404:
+          description: A user with the specified ID was not found.
+        500: 
+          description: Internal server error
+      deprecated: false
+
+    delete:
+      tags:
+        - Job
+      summary: Delete Job
+      operationId: DeleteJob
+      parameters: []
+      responses:
+        200:
+          description: OK
+          headers: {}
+        201: 
+          description: Created
+          headers: {}
+        400:
+          description: Bad request.
+        401:
+          description: Authorization information is missing or invalid.
+        404:
+          description: A user with the specified ID was not found.
+        500: 
+          description: Internal server error
+      deprecated: false
+
+
+
+components:
+  schemas:
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: bob
+        email: bob@example.com
+        password: secret
+
+    LoginUserRequest:
+      title: LoginUserRequest
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: bob@example.com
+        password: secret
+
+    CreateJobRequest:
+      title: CreateJobRequest
+      required:
+        - company
+        - position
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+      example:
+        company: google
+        position: frontend developer
+
+    UpdateJobRequest:
+      title: UpdateJobRequest
+      required:
+        - company
+        - position
+      type: object
+      properties:
+        company:
+          type: string
+        position:
+          type: string
+      example:
+        company: random
+        position: intern
+  securitySchemes:
+    httpBearer:
+      type: http
+      scheme: bearer
+security:
+  - httpBearer: []
+tags:
+  - name: Auth 
+    description: ''
+  - name: Job 
+    description: ''
